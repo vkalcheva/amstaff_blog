@@ -5,14 +5,14 @@ def add_dog(request):
     return render(request, 'dogs/pet-add-page.html')
 
 
-def delete_dog(request):
+def delete_dog(request, username, dog_name):
     return render(request, 'dogs/pet-delete-page.html')
 
 
-def details_dog(request):
+def details_dog(request, username, dog_name):
     return render(request, 'dogs/pet-details-page.html')
 
 
-def edit_dog(request):
+def edit_dog(request, username, dog_name):
     return render(request, 'dogs/pet-edit-page.html')
 
