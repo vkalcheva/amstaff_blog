@@ -23,6 +23,11 @@ class Photo(models.Model):
         null=True,
         blank=True,
     )
+    location = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+    )
 
     publication_date = models.DateField(
         # Automatically sets current date on `save` (update or create)
