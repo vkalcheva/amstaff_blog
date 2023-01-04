@@ -8,9 +8,11 @@ class Photo(models.Model):
     MIN_DESCRIPTION_LENGTH = 10
     MAX_DESCRIPTION_LENGTH = 300
 
-    photo = models.URLField(
-        null=False,
-        blank=False,
+    MAX_LOCATION_LENGTH = 30
+
+    photo = models.ImageField(
+        null=True,
+        blank=True,
     )
 
     description = models.CharField(
@@ -23,8 +25,9 @@ class Photo(models.Model):
         null=True,
         blank=True,
     )
+
     location = models.CharField(
-        max_length=100,
+        max_length=MAX_LOCATION_LENGTH,
         null=True,
         blank=True,
     )
@@ -36,7 +39,7 @@ class Photo(models.Model):
         blank=True,
     )
 
-    dog = models.ForeignKey(
+    tagged_dogs = models.ManyToManyField(
         Dog,
-        on_delete=models.RESTRICT,
+        blank=True,
     )

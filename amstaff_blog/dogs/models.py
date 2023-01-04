@@ -1,9 +1,9 @@
 from django.db import models
+from django.utils.text import slugify
 
 
 class Dog(models.Model):
     MAX_NAME = 30
-    MAX_LOCATION_LENGTH = 30
 
     name = models.CharField(
         max_length=MAX_NAME,
@@ -12,12 +12,13 @@ class Dog(models.Model):
     )
 
     personal_photo = models.URLField(
-        null=False,
-        blank=False,
-    )
-    location = models.CharField(
-        max_length=MAX_LOCATION_LENGTH,
         null=True,
+        blank=True,
+    )
+
+    slug = models.SlugField(
+        unique=True,
+        null=False,
         blank=True,
     )
 
@@ -25,3 +26,19 @@ class Dog(models.Model):
         null=True,
         blank=True,
     )
+
+    def save(self, *args, **kwargs):
+        # Create/Update
+        super().save(*args, **kwargs)
+
+        if not self.slug:
+            self.slug = slugify(f'{self.id}-{self.name}')
+
+        # Without the `if` the following scenario might happen:
+        # The url is `/pets/4-stamat`
+        # Rename `stamat` to `stamata`
+        # The new url is `/pets/4-stamata`, but `/pets/4-stamat` does not work
+
+        # Update
+        return super().save(*args, **kwargs)
+
